@@ -9,10 +9,20 @@
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400" rel="stylesheet">
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
+  <script>
+    function playAudio() {
+        var audio = document.getElementById("myAudio");
+        audio.play();
+    }
+</script>
 </head>
 
 <body>
   <div class="container">
+    <audio autoplay="autoplay" height="100" width="100" id="myAudio">
+      <source src="aud.mp3" type="audio/mp3" />
+      <embed height="100" width="100" src="aud.mp3" />
+    </audio>
     <div class="one">
       <h1 class="one">
         <span data-node-name="greeting">Hey</span>
@@ -46,8 +56,7 @@
       </p>
     </div>
     <div class="six">
-      <img src="img/lydia2.png" alt="" class="lydia-dp" data-node-name="imagePath">
-      <img src="img/hat.svg" alt="" class="hat">
+      <img src="img/lydia2.png" alt="" class="lydia-dp" style="max-width: 100%; height: auto;" data-node-name="imagePath">
       <div class="wish">
         <h3 class="wish-hbd" data-node-name="wishHeading">Happy Birthday!</h3>
         <h5 data-node-name="wishText">May the js.prototypes always be with you! ;)</h5>
