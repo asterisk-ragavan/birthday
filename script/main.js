@@ -1,4 +1,5 @@
 // Import the data to customize and insert them into page
+
 const fetchData = () => {
   fetch("customize.json")
     .then(data => data.json())
@@ -14,7 +15,7 @@ const fetchData = () => {
             document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData];
           }
         }
-
+        playAudio();
         // Check if the iteration is over
         // Run amimation if so
         if ( dataArr.length === dataArr.indexOf(customData) + 1 ) {
