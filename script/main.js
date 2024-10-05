@@ -1,6 +1,6 @@
 // Function to fetch DOB and start live counter
 const fetchDOBAndStartCounter = () => {
-  fetch('customizer.json')
+  fetch('script/customize.json')
     .then(response => response.json())
     .then(data => {
       const dob = new Date(data.dob);
@@ -51,7 +51,7 @@ function updateAge(dob) {
 
 // Existing code for fetching data and running animation timeline
 const fetchData = () => {
-  fetch("customizer.json")
+  fetch("script/customize.json")
     .then(data => data.json())
     .then(data => {
       dataArr = Object.keys(data);
