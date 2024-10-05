@@ -1,4 +1,58 @@
 // Import the data to customize and insert them into page
+// Function to fetch DOB from customizer.json and start the live counter
+async function fetchDOBAndStartCounter() {
+  try {
+      // Fetch the DOB from customizer.json
+      const response = await fetch('customizer.json');
+      const data = await response.json();
+      const dob = new Date(data.dob);
+
+      // Display the DOB in the HTML
+      document.getElementById('dob').textContent = dob.toDateString();
+
+      // Start the live counter
+      setInterval(() => updateAge(dob), 1000);
+  } catch (error) {
+      console.error('Error fetching DOB:', error);
+  }
+}
+
+// Function to update age calculations in real time
+function updateAge(dob) {
+  const now = new Date();
+
+  // Calculate difference in milliseconds
+  let diff = now - dob;
+
+  // Calculate years, months, days, hours, minutes, and seconds
+  const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+  diff -= years * 1000 * 60 * 60 * 24 * 365.25;
+
+  const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30.44));
+  diff -= months * 1000 * 60 * 60 * 24 * 30.44;
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  diff -= days * 1000 * 60 * 60 * 24;
+
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  diff -= hours * 1000 * 60 * 60;
+
+  const minutes = Math.floor(diff / (1000 * 60));
+  diff -= minutes * 1000 * 60;
+
+  const seconds = Math.floor(diff / 1000);
+
+  // Update the HTML with the new values
+  document.getElementById('years').textContent = years;
+  document.getElementById('months').textContent = months;
+  document.getElementById('days').textContent = days;
+  document.getElementById('hours').textContent = hours;
+  document.getElementById('minutes').textContent = minutes;
+  document.getElementById('seconds').textContent = seconds;
+}
+
+// Start the counter when the page loads
+fetchDOBAndStartCounter();
 
 const fetchData = () => {
   fetch("customize.json")
@@ -15,7 +69,7 @@ const fetchData = () => {
             document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData];
           }
         }
-        playAudio();
+
         // Check if the iteration is over
         // Run amimation if so
         if ( dataArr.length === dataArr.indexOf(customData) + 1 ) {
@@ -24,6 +78,8 @@ const fetchData = () => {
       });
     });
 };
+
+playAudio();
 
 // Animation Timeline
 const animationTimeline = () => {
@@ -295,7 +351,7 @@ const animationTimeline = () => {
 
   // tl.seek("currentStep");
   // tl.timeScale(2);
-
+  fetchDOBAndStartCounter();
   // Restart Animation on click
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
