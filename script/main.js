@@ -1,30 +1,31 @@
-// Import the data to customize and insert them into page
-// Function to fetch DOB from customizer.json and start the live counter
-async function fetchDOBAndStartCounter() {
-  try {
-      // Fetch the DOB from customizer.json
-      const response = await fetch('customizer.json');
-      const data = await response.json();
+// Function to fetch DOB and start live counter
+const fetchDOBAndStartCounter = () => {
+  fetch('customizer.json')
+    .then(response => response.json())
+    .then(data => {
       const dob = new Date(data.dob);
 
-      // Display the DOB in the HTML
-      document.getElementById('dob').textContent = dob.toDateString();
+      // Display DOB in the HTML
+      const dobElement = document.createElement('p');
+      dobElement.textContent = `Date of Birth: ${dob.toDateString()}`;
+      document.body.prepend(dobElement); // Insert at the top of the body
 
-      // Start the live counter
+      // Create a real-time age counter container
+      const counterElement = document.createElement('p');
+      counterElement.id = 'live-counter';
+      document.body.prepend(counterElement);
+
+      // Start live update of the age counter
       setInterval(() => updateAge(dob), 1000);
-  } catch (error) {
-      console.error('Error fetching DOB:', error);
-  }
-}
+    })
+    .catch(error => console.error('Error fetching DOB:', error));
+};
 
-// Function to update age calculations in real time
+// Function to update the live age counter
 function updateAge(dob) {
   const now = new Date();
-
-  // Calculate difference in milliseconds
   let diff = now - dob;
 
-  // Calculate years, months, days, hours, minutes, and seconds
   const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
   diff -= years * 1000 * 60 * 60 * 24 * 365.25;
 
@@ -42,20 +43,15 @@ function updateAge(dob) {
 
   const seconds = Math.floor(diff / 1000);
 
-  // Update the HTML with the new values
-  document.getElementById('years').textContent = years;
-  document.getElementById('months').textContent = months;
-  document.getElementById('days').textContent = days;
-  document.getElementById('hours').textContent = hours;
-  document.getElementById('minutes').textContent = minutes;
-  document.getElementById('seconds').textContent = seconds;
+  // Update the live counter
+  document.getElementById('live-counter').innerHTML = `
+    ${years} years, ${months} months, ${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds old
+  `;
 }
 
-// Start the counter when the page loads
-fetchDOBAndStartCounter();
-
+// Existing code for fetching data and running animation timeline
 const fetchData = () => {
-  fetch("customize.json")
+  fetch("customizer.json")
     .then(data => data.json())
     .then(data => {
       dataArr = Object.keys(data);
@@ -71,15 +67,13 @@ const fetchData = () => {
         }
 
         // Check if the iteration is over
-        // Run amimation if so
+        // Run animation if so
         if ( dataArr.length === dataArr.indexOf(customData) + 1 ) {
           animationTimeline();
         } 
       });
     });
 };
-
-playAudio();
 
 // Animation Timeline
 const animationTimeline = () => {
@@ -144,7 +138,6 @@ const animationTimeline = () => {
     .from(".three", 0.7, {
       opacity: 0,
       y: 10
-      // scale: 0.7
     })
     .to(
       ".three",
@@ -289,7 +282,6 @@ const animationTimeline = () => {
       {
         opacity: 0,
         y: -50,
-        // scale: 0.3,
         rotation: 150,
         skewX: "30deg",
         ease: Elastic.easeOut.config(1, 0.5)
@@ -349,9 +341,6 @@ const animationTimeline = () => {
       "+=1"
     );
 
-  // tl.seek("currentStep");
-  // tl.timeScale(2);
-  fetchDOBAndStartCounter();
   // Restart Animation on click
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
@@ -359,5 +348,7 @@ const animationTimeline = () => {
   });
 };
 
-// Run fetch and animation in sequence
+// Run the functions in sequence
+fetchDOBAndStartCounter();
 fetchData();
+
