@@ -1,24 +1,45 @@
-// Function to fetch DOB and start live counter
+// Embedded JSON data
+const birthdayData = {
+  dob: "1995-10-05", // Example date of birth
+  greeting: "Hiya",
+  name: "Anjali",
+  greetingText: "I really like you and it was a magic what u came in my life",
+  wishText: "❤️A wish for you on your birthday,💗 whatever you ask may you receive, whatever you seek may you find🏆, whatever you wish may it be fulfilled on your birthday and always. ;)",
+  imagePath: "img/anjali.jpg",
+  text1: "It's your birthday!!! :D",
+  textInChatBox: "Happy birthday to you!! Yeee! Many many happy blah...",
+  sendButtonLabel: "Send",
+  text2: "That's what I was going to do.",
+  text3: "But then I stopped.",
+  text4: "I realised, I wanted to do something",
+  text4Adjective: "special",
+  text5Entry: "Because,",
+  text5Content: "You are Special",
+  smiley: ":)",
+  bigTextPart1: "S",
+  bigTextPart2: "O",
+  wishHeading: "Happy Birthday!",
+  outroText: "Okay, now come back and tell me if you liked it.",
+  replayText: "Or click, if you want to watch it again.",
+  outroSmiley: ":)"
+};
+
+// Function to start the counter using embedded JSON data
 const fetchDOBAndStartCounter = () => {
-  fetch('script/customize.json')
-    .then(response => response.json())
-    .then(data => {
-      const dob = new Date(data.dob);
+  const dob = new Date(birthdayData.dob);
 
-      // Display DOB in the HTML
-      const dobElement = document.createElement('p');
-      dobElement.textContent = `Date of Birth: ${dob.toDateString()}`;
-      document.body.prepend(dobElement); // Insert at the top of the body
+  // Display DOB in the HTML
+  const dobElement = document.createElement('p');
+  dobElement.textContent = `Date of Birth: ${dob.toDateString()}`;
+  document.body.prepend(dobElement); // Insert at the top of the body
 
-      // Create a real-time age counter container
-      const counterElement = document.createElement('p');
-      counterElement.id = 'live-counter';
-      document.body.prepend(counterElement);
+  // Create a real-time age counter container
+  const counterElement = document.createElement('p');
+  counterElement.id = 'live-counter';
+  document.body.prepend(counterElement);
 
-      // Start live update of the age counter
-      setInterval(() => updateAge(dob), 1000);
-    })
-    .catch(error => console.error('Error fetching DOB:', error));
+  // Start live update of the age counter
+  setInterval(() => updateAge(dob), 1000);
 };
 
 // Function to update the live age counter
@@ -49,31 +70,30 @@ function updateAge(dob) {
   `;
 }
 
-// Existing code for fetching data and running animation timeline
+// Function to fetch data and update the DOM
 const fetchData = () => {
-  fetch("script/customize.json")
-    .then(data => data.json())
-    .then(data => {
-      dataArr = Object.keys(data);
-      dataArr.map(customData => {
-        if (data[customData] !== "") {
-          if (customData === "imagePath") {
-            document
-              .querySelector(`[data-node-name*="${customData}"]`)
-              .setAttribute("src", data[customData]);
-          } else {
-            document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData];
-          }
-        }
+  const data = birthdayData; // Directly use the data object
 
-        // Check if the iteration is over
-        // Run animation if so
-        if ( dataArr.length === dataArr.indexOf(customData) + 1 ) {
-          animationTimeline();
-        } 
-      });
-    });
+  const dataArr = Object.keys(data);
+  dataArr.map(customData => {
+    if (data[customData] !== "") {
+      if (customData === "imagePath") {
+        document
+          .querySelector(`[data-node-name*="${customData}"]`)
+          .setAttribute("src", data[customData]);
+      } else {
+        document.querySelector(`[data-node-name*="${customData}"]`).innerText = data[customData];
+      }
+    }
+
+    // Check if the iteration is over
+    // Run animation if so
+    if (dataArr.length === dataArr.indexOf(customData) + 1) {
+      animationTimeline();
+    }
+  });
 };
+
 
 // Animation Timeline
 const animationTimeline = () => {
