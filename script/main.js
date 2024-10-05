@@ -360,7 +360,7 @@ const animationTimeline = () => {
       },
       "+=1"
     );
-
+    fetchDOBAndStartCounter();
   // Restart Animation on click
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
@@ -369,6 +369,4 @@ const animationTimeline = () => {
 };
 
 // Run the functions in sequence
-fetchDOBAndStartCounter();
 fetchData();
-
